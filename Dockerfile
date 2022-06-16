@@ -1,5 +1,6 @@
 FROM --platform=$BUILDPLATFORM golang:1.16-buster AS builder
 WORKDIR /src
+ARG TARGETOS TARGETARCH
 
 RUN curl -sSL https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && \
     echo "deb https://dl.yarnpkg.com/debian/ stable main" >/etc/apt/sources.list.d/yarn.list && \
@@ -18,7 +19,7 @@ RUN yarn webpack --config webpack.prod.js && \
 COPY . /src/
 ARG BUILD
 ARG GIT_COMMIT
-RUN CGO_ENABLED=1 GOOS=linux go build -a -ldflags "-linkmode external -extldflags \"-static\" \
+RUN CGO_ENABLED=1 GOOS=$TARGETOS GOARCH=$TARGETARCH go build -a -ldflags "-linkmode external -extldflags \"-static\" \
     -X github.com/fanaticscripter/EggContractor/web.AppBuild=$BUILD \
     -X github.com/fanaticscripter/EggContractor/web.GitCommit=$GIT_COMMIT"
 

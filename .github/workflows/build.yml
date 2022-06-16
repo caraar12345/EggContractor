@@ -23,7 +23,7 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           platforms: linux/386,linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64
-          tags: fanaticscripter/eggcontractor:latest
+          tags: aaroncarson/eggcontractor:latest
           push: ${{ github.ref == 'refs/heads/master' }}
           build-args: |
             BUILD=${{ env.BUILD }}
