@@ -17,9 +17,9 @@ import (
 )
 
 const (
-	AppVersion     = "1.22.9"
-	AppBuild       = "1.22.9.0"
-	ClientVersion  = 37
+	AppVersion     = "1.23.1"
+	AppBuild       = "1.23.1.0"
+	ClientVersion  = 38
 	PlatformString = "IOS"
 )
 
@@ -88,6 +88,10 @@ func RequestCoopStatus(payload *CoopStatusRequestPayload) (*CoopStatus, error) {
 }
 
 func RequestCoopStatusWithContext(ctx context.Context, payload *CoopStatusRequestPayload) (*CoopStatus, error) {
+	if payload.PlayerId == "" {
+		// A valid player_id is now required.
+		payload.PlayerId = "EI5479916642762752"
+	}
 	resp := &CoopStatus{}
 	err := RequestAuthenticatedWithContext(ctx, "/ei/coop_status", payload, resp)
 	if err != nil {
